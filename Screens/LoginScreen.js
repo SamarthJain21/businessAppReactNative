@@ -6,6 +6,7 @@ import { auth } from "../firebase";
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
   const navigation = useNavigation()
   
   useEffect(() => {
@@ -17,15 +18,15 @@ const LoginScreen = () => {
     return unsubscribe;
   }, [])
 
-  const handleSignUp = () =>{
-    auth
-    .createUserWithEmailAndPassword(email, password)
-    .then(userCredentials=>{
-      const user = userCredentials.user;
-      console.log('Registered with', user.email)
-    })
-    .catch(error=>alert(error.message))
-  }
+  // const handleSignUp = () =>{
+  //   auth
+  //   .createUserWithEmailAndPassword(email, password)
+  //   .then(userCredentials=>{
+  //     const user = userCredentials.user;
+  //     console.log('Registered with', user.email)
+  //   })
+  //   .catch(error=>alert(error.message))
+  // }
 
   const handleLogin=()=>{
     auth
@@ -69,10 +70,12 @@ const LoginScreen = () => {
        </TouchableOpacity>
 
        <TouchableOpacity
-        onPress={handleSignUp}
+        onPress={()=>{
+          navigation.navigate("Signup")
+        }}
         style={[styles.button, styles.buttonOutline]}
        >
-         <Text style={styles.buttonOutlineText}>Register</Text>
+         <Text style={styles.buttonOutlineText}>Don't have an account? Register now</Text>
        </TouchableOpacity>
      </View>
 
@@ -85,6 +88,8 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
+
+
 const styles = StyleSheet.create({
   container:{
     flex:1,
@@ -118,12 +123,12 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     marginTop:5,
     borderColor:'#0782f9',
-    borderWidth:2
+    borderWidth:0.8
   },
   buttonOutlineText:{
     color:'#0782f9',
     fontWeight:'700',
-    fontSize:16
+    fontSize:12
   },
   buttonText:{
     color:'white',
