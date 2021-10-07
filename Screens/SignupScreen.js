@@ -1,6 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
+
 import {
   KeyboardAvoidingView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -17,7 +19,8 @@ export default class SignupScreen extends Component {
       companyName: "",
       email: "",
       password: "",
-      authID: "",
+      // auth id is _id
+      _id: "",
       phoneNumber: "",
       address: "",
       country: "",
@@ -26,7 +29,7 @@ export default class SignupScreen extends Component {
       pincode: "",
       gstNo: "",
     };
-    this.handleSignUp = this.handleSignUp.bind(this);
+    // this.handleSignUp = this.handleSignUp.bind(this);
   }
 
   postData = () => {
@@ -39,7 +42,7 @@ export default class SignupScreen extends Component {
       body: JSON.stringify({
         companyName: this.state.companyName,
         email: this.state.email,
-        authID: auth.currenUser().uid,
+        _id: auth.currentUser.uid,
         phoneNumber: this.state.phoneNumber,
         address: this.state.address,
         country: this.state.country,
@@ -49,7 +52,7 @@ export default class SignupScreen extends Component {
         gstNo: this.state.gstNo,
       }),
     })
-      .then(console.log("done data doao"))
+      .then(console.log(auth.currentUser.uid))
       .catch((error) => {
         alert(error);
       });
@@ -73,127 +76,144 @@ export default class SignupScreen extends Component {
     const { navigation } = this.props;
 
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Company Name"
-            value={this.state.companyName}
-            onChangeText={(text) =>
-              this.setState({
-                companyName: text,
-              })
-            }
-            style={styles.input}
-          />
+      <ScrollView>
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Company Name"
+              value={this.state.companyName}
+              onChangeText={(text) =>
+                this.setState({
+                  companyName: text,
+                })
+              }
+              style={styles.input}
+            />
 
-          <TextInput
-            placeholder="Email"
-            value={this.state.email}
-            onChangeText={(text) =>
-              this.setState({
-                email: text,
-              })
-            }
-            style={styles.input}
-          />
+            <TextInput
+              placeholder="Email"
+              value={this.state.email}
+              onChangeText={(text) =>
+                this.setState({
+                  email: text,
+                })
+              }
+              style={styles.input}
+            />
 
-          <TextInput
-            placeholder="Password"
-            value={this.state.password}
-            onChangeText={(text) =>
-              this.setState({
-                password: text,
-              })
-            }
-            style={styles.input}
-            secureTextEntry
-          />
+            <TextInput
+              placeholder="Password"
+              value={this.state.password}
+              onChangeText={(text) =>
+                this.setState({
+                  password: text,
+                })
+              }
+              style={styles.input}
+              secureTextEntry
+            />
 
-          <TextInput
-            placeholder="Address"
-            value={this.state.address}
-            onChangeText={(text) =>
-              this.setState({
-                address: text,
-              })
-            }
-            style={styles.input}
-          />
+            <TextInput
+              placeholder="Phone Number"
+              value={this.state.phoneNumber}
+              onChangeText={(text) =>
+                this.setState({
+                  phoneNumber: text,
+                })
+              }
+              style={styles.input}
+              secureTextEntry
+            />
 
-          <TextInput
-            placeholder="country"
-            value={this.state.country}
-            onChangeText={(text) =>
-              this.setState({
-                country: text,
-              })
-            }
-            style={styles.input}
-          />
+            <TextInput
+              placeholder="Address"
+              value={this.state.address}
+              onChangeText={(text) =>
+                this.setState({
+                  address: text,
+                })
+              }
+              style={styles.input}
+            />
 
-          <TextInput
-            placeholder="state"
-            value={this.state.state}
-            onChangeText={(text) =>
-              this.setState({
-                state: text,
-              })
-            }
-            style={styles.input}
-          />
+            <TextInput
+              placeholder="country"
+              value={this.state.country}
+              onChangeText={(text) =>
+                this.setState({
+                  country: text,
+                })
+              }
+              style={styles.input}
+            />
 
-          <TextInput
-            placeholder="city"
-            value={this.state.city}
-            onChangeText={(text) =>
-              this.setState({
-                city: text,
-              })
-            }
-            style={styles.input}
-          />
+            <TextInput
+              placeholder="state"
+              value={this.state.state}
+              onChangeText={(text) =>
+                this.setState({
+                  state: text,
+                })
+              }
+              style={styles.input}
+            />
 
-          <TextInput
-            placeholder="pincode"
-            keyboardType="numeric"
-            value={this.state.pincode}
-            onChangeText={(text) =>
-              this.setState({
-                pincode: text,
-              })
-            }
-            style={styles.input}
-          />
+            <TextInput
+              placeholder="city"
+              value={this.state.city}
+              onChangeText={(text) =>
+                this.setState({
+                  city: text,
+                })
+              }
+              style={styles.input}
+            />
 
-          <TextInput
-            placeholder="gstNo"
-            value={this.state.gstNo}
-            onChangeText={(text) =>
-              this.setState({
-                gstNo: text,
-              })
-            }
-            style={styles.input}
-          />
-        </View>
+            <TextInput
+              placeholder="pincode"
+              keyboardType="numeric"
+              value={this.state.pincode}
+              onChangeText={(text) =>
+                this.setState({
+                  pincode: text,
+                })
+              }
+              style={styles.input}
+            />
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={this.handleSignUp} style={[styles.button]}>
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
+            <TextInput
+              placeholder="gstNo"
+              value={this.state.gstNo}
+              onChangeText={(text) =>
+                this.setState({
+                  gstNo: text,
+                })
+              }
+              style={styles.input}
+            />
+          </View>
 
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Login");
-            }}
-            style={[styles.button, styles.buttonOutline]}
-          >
-            <Text style={styles.buttonOutlineText}>
-              Already have an account? Login now
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={this.handleSignUp}
+              style={[styles.button]}
+            >
+              <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
+              style={[styles.button, styles.buttonOutline]}
+            >
+              <Text style={styles.buttonOutlineText}>
+                Already have an account? Login now
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }
