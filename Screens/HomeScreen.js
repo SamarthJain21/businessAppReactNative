@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Button } from "react-native";
 import { auth } from "../firebase";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import { firestore } from "../firebase";
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -17,22 +17,43 @@ export default class HomeScreen extends Component {
   }
 
   getData = async () => {
+    const users = await firestore
+      .collection("Users")
+      .doc(auth.currentUser.uid)
+      // .doc("ib10xX0errBrtb32pYlp")
+      // .collection("sales")
+      .get();
+    const user = users.data();
+    console.log(user);
+
+    this.setState({
+      companyName: user.companyName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      address: user.address,
+      country: user.country,
+      state: user.state,
+      city: user.city,
+      pincode: user.pincode,
+      gstNo: user.gstNo,
+    });
+
     // console.log("inside get Data");
-    console.log(auth.currentUser.uid);
-    const requestURL = "http://192.168.18.7:8000/user/" + auth.currentUser.uid;
-    // console.log(requestURL);
-    try {
-      let response = await fetch(requestURL);
-      let result = await response.json();
-      // console.log(result);
-      this.setState({
-        companyName: result.companyName,
-        email: result.email,
-        gstNo: result.gstNo,
-      });
-    } catch (error) {
-      alert(error);
-    }
+    // console.log(auth.currentUser.uid);
+    // const requestURL = "http://192.168.18.7:8000/user/" + auth.currentUser.uid;
+    // // console.log(requestURL);
+    // try {
+    //   let response = await fetch(requestURL);
+    //   let result = await response.json();
+    //   // console.log(result);
+    //   this.setState({
+    //     companyName: result.companyName,
+    //     email: result.email,
+    //     gstNo: result.gstNo,
+    //   });
+    // } catch (error) {
+    //   alert(error);
+    // }
   };
 
   componentDidMount = () => {
@@ -44,7 +65,7 @@ export default class HomeScreen extends Component {
   };
 
   render() {
-    console.log("inside render");
+    // console.log("inside render");
     const { navigation } = this.props;
 
     if (!auth.currentUser) {
@@ -70,21 +91,17 @@ export default class HomeScreen extends Component {
           <TouchableOpacity style={styles.button} onPress={handleSignOut}>
             <Text style={styles.buttonText}>Sign out</Text>
           </TouchableOpacity>
-
-          {/*
-
-          <Icon
-            name="logout"
-            size="15px"
-            style={{
-              backgroundColor: "black",
-              color: "white",
-            }}
-          />
-          */}
         </View>
 
-        <View style={styles.container}></View>
+        <View style={styles.container}>
+          <Button
+            style={styles.viewCompany}
+            title="View Companies"
+            onPress={() => {
+              navigation.navigate("Companies");
+            }}
+          />
+        </View>
       </View>
     );
   }
@@ -93,11 +110,11 @@ export default class HomeScreen extends Component {
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    // justifyContent: "space-between",
   },
   container: {
-    alignItems: "center",
-    alignSelf: "center",
+    alignSelf: "flex-start",
+    marginLeft: 15,
+    marginTop: 20,
   },
   button: {
     paddingTop: 10,

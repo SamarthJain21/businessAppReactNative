@@ -56,4 +56,42 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.post("/addCompany", async (req, res) => {
+  const {
+    _id,
+    companyName,
+    email,
+    phoneNumber,
+    goods,
+    address,
+    country,
+    state,
+    city,
+    pincode,
+    gstNo,
+  } = req.body;
+  try {
+    const userInfo = await userSchema.findById(_id);
+    const companies = await userInfo.Find({
+      companyName: companyName,
+    });
+    const company = await companies.create({
+      companyName,
+      email,
+      phoneNumber,
+      goods,
+      address,
+      country,
+      state,
+      city,
+      pincode,
+      gstNo,
+    });
+    res.status(200).json({ result: companies });
+    console.log(companies);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export default router;

@@ -1,4 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
+// import firestore from "@react-native-firebase/firestore";
+import { firestore } from "../firebase";
 
 import {
   KeyboardAvoidingView,
@@ -33,29 +35,54 @@ export default class SignupScreen extends Component {
   }
 
   postData = () => {
-    fetch("http://192.168.18.7:8000/user/signup", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        companyName: this.state.companyName,
-        email: this.state.email,
-        _id: auth.currentUser.uid,
-        phoneNumber: this.state.phoneNumber,
-        address: this.state.address,
-        country: this.state.country,
-        state: this.state.state,
-        city: this.state.city,
-        pincode: this.state.pincode,
-        gstNo: this.state.gstNo,
-      }),
-    })
-      .then(console.log(auth.currentUser.uid))
-      .catch((error) => {
-        alert(error);
-      });
+    console.log("inside post data");
+    try {
+      firestore
+        .collection("Users")
+        .doc(auth.currentUser.uid)
+        .set({
+          companyName: this.state.companyName,
+          email: this.state.email,
+          phoneNumber: this.state.phoneNumber,
+          address: this.state.address,
+          country: this.state.country,
+          state: this.state.state,
+          city: this.state.city,
+          pincode: this.state.pincode,
+          gstNo: this.state.gstNo,
+        })
+        .then(() => {
+          console.log("User added");
+        });
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
+
+    // fetch("http://192.168.18.7:8000/user/signup", {
+    // console.log("jfjfjf")
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     companyName: this.state.companyName,
+    //     email: this.state.email,
+    //     _id: auth.currentUser.uid,
+    //     phoneNumber: this.state.phoneNumber,
+    //     address: this.state.address,
+    //     country: this.state.country,
+    //     state: this.state.state,
+    //     city: this.state.city,
+    //     pincode: this.state.pincode,
+    //     gstNo: this.state.gstNo,
+    //   }),
+    // })
+    //   .then(console.log(auth.currentUser.uid))
+    //   .catch((error) => {
+    //     alert(error);
+    //   });
   };
 
   handleSignUp = () => {
@@ -121,8 +148,8 @@ export default class SignupScreen extends Component {
                   phoneNumber: text,
                 })
               }
+              keyboardType="numeric"
               style={styles.input}
-              secureTextEntry
             />
 
             <TextInput

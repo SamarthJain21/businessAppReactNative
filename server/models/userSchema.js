@@ -1,5 +1,46 @@
 import mongoose from "mongoose";
 
+var goods = mongoose.Schema({
+  itemName: String,
+  itemThickness: Number,
+  itemSize: Number,
+});
+
+const companies = mongoose.Schema({
+  companyName: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  phoneNumber: {
+    type: String,
+    required: true,
+  },
+  goods: [goods],
+  address: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+  city: {
+    type: String,
+  },
+  pincode: {
+    type: Number,
+  },
+  gstNo: {
+    type: String,
+    // required: true,
+  },
+});
+
 const schema = mongoose.Schema({
   companyName: {
     type: String,
@@ -42,6 +83,7 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
+  companies: [companies],
 });
 
 const userSchema = mongoose.model("users", schema);
