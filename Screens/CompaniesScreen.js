@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-// import { Searchbar } from "react-native-paper";
 import SearchBar from "react-native-dynamic-search-bar";
 import { auth } from "../firebase";
 import { firestore } from "../firebase";
@@ -27,11 +26,7 @@ export default class CompaniesScreen extends Component {
       pincode: "",
       gstNo: "",
 
-      // result: [],
       results: [],
-      // resultID: "",
-      resultIDs: [],
-      // results1: [],
       companyID: "",
     };
   }
@@ -78,8 +73,6 @@ export default class CompaniesScreen extends Component {
     const { navigation } = this.props;
     return (
       <View>
-        {/* {console.log("hey there", this.state.results[1])} */}
-
         <SearchBar
           placeholder="Search company / size"
           style={styles.searchBar}

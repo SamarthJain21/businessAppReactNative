@@ -7,6 +7,8 @@ import HomeScreen from "./Screens/HomeScreen";
 import SignupScreen from "./Screens/SignupScreen";
 import CompaniesScreen from "./Screens/CompaniesScreen";
 import AddCompanyScreen from "./Screens/AddCompanyScreen";
+import SalesScreen from "./Screens/SalesScreen";
+import AddSaleScreen from "./Screens/AddSaleScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +16,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          options={{ headerShown: true }}
+          name="Home"
+          component={HomeScreen}
+        />
         <Stack.Screen
           options={{ headerShown: true }}
           name="Login"
@@ -34,6 +40,16 @@ export default function App() {
           options={{ headerShown: true }}
           name="AddCompany"
           component={AddCompanyScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: true }}
+          name="Sales"
+          component={SalesScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: true }}
+          name="AddSale"
+          component={AddSaleScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

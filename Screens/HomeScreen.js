@@ -86,19 +86,31 @@ export default class HomeScreen extends Component {
             <Text style={styles.companyName}>{this.state.companyName}</Text>
             <Text style={styles.textField}>{this.state.gstNo}</Text>
           </View>
-          <TouchableOpacity style={styles.button} onPress={handleSignOut}>
+          <TouchableOpacity
+            style={styles.signoutButton}
+            onPress={handleSignOut}
+          >
             <Text style={styles.buttonText}>Sign out</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.container}>
-          <Button
-            style={styles.viewCompany}
-            title="View Companies"
+          <TouchableOpacity
+            style={styles.funcButton}
             onPress={() => {
               navigation.navigate("Companies");
             }}
-          />
+          >
+            <Text style={{ color: "white" }}>View Companies</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.funcButton}
+            onPress={() => {
+              navigation.navigate("Sales");
+            }}
+          >
+            <Text style={{ color: "white", flexWrap: "wrap" }}>View Sales</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -109,12 +121,8 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
   },
-  container: {
-    alignSelf: "flex-start",
-    marginLeft: 15,
-    marginTop: 20,
-  },
-  button: {
+
+  signoutButton: {
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 10,
@@ -147,5 +155,23 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "500",
     fontSize: 16,
+  },
+  container: {
+    // flex: 1,
+    alignSelf: "center",
+    alignItems: "center",
+    // marginLeft: 15,
+    marginTop: 20,
+    display: "flex",
+    flexDirection: "row",
+  },
+  funcButton: {
+    borderRadius: 10,
+    backgroundColor: "#0782f9",
+    height: 50,
+    width: "40%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 10,
   },
 });
