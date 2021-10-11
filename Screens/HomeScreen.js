@@ -12,7 +12,7 @@ export default class HomeScreen extends Component {
       email: "",
       gstNo: "",
     };
-    this.getData = this.getData.bind(this);
+    // this.getData = this.getData.bind(this);
     // console.log("inside constructor");
   }
 
@@ -20,11 +20,9 @@ export default class HomeScreen extends Component {
     const users = await firestore
       .collection("Users")
       .doc(auth.currentUser.uid)
-      // .doc("ib10xX0errBrtb32pYlp")
-      // .collection("sales")
       .get();
     const user = users.data();
-    console.log(user);
+    // console.log(user);
 
     this.setState({
       companyName: user.companyName,
