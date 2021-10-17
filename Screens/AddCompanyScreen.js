@@ -45,7 +45,7 @@ export default class AddCompanyScreen extends Component {
           city: this.state.city,
           pincode: this.state.pincode,
         });
-      this.props.navigation.navigate("Companies");
+      this.props.navigation.replace("Companies");
 
       console.log("user added");
     } catch (error) {

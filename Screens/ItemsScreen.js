@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { auth, firestore } from "../firebase";
 import {
   Button,
   ScrollView,
@@ -8,56 +9,50 @@ import {
   View,
 } from "react-native";
 import SearchBar from "react-native-dynamic-search-bar";
-import { auth } from "../firebase";
-import { firestore } from "../firebase";
-export default class CompaniesScreen extends Component {
+
+export default class ItemsScreen extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      companyName: "",
-      email: "",
-      goods: {},
-      phoneNumber: "",
-      address: "",
-      country: "",
-      state: "",
-      city: "",
-      pincode: "",
-      gstNo: "",
-
+      companyID: this.props.route.params.companyID,
       results: [],
-      companyID: "",
     };
   }
-  componentDidMount() {
-    this.getCompanies();
-  }
 
-  getCompanies = async () => {
-    const companies = await firestore
+  componentDidMount() {
+    this.getItems();
+  }
+  getItems = async () => {
+    const items = await firestore
       .collection("Users")
       .doc(auth.currentUser.uid)
       .collection("Companies")
-      .orderBy("companyName")
+      .doc(this.state.companyID)
+      .collection("Items")
+      .orderBy("itemName")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((documentSnapshot) => {
           this.setState({
             results: this.state.results.concat({
-              ...documentSnapshot.data(),
-              id: documentSnapshot.id,
+              itemID: documentSnapshot.id,
+              itemName: documentSnapshot.data().itemName,
+              itemSize: documentSnapshot.data().itemSize,
+              itemThickness: documentSnapshot.data().itemThickness,
             }),
           });
         });
       });
   };
+
   render() {
-    const { navigation } = this.props;
+    const { navigation } = this.props.navigation;
+    this.getItems;
+    // console.log(this.state.results);
     return (
       <View>
         <SearchBar
-          placeholder="Search company by name/email/phone"
+          placeholder="Search Item thickness/size/name"
           style={styles.searchBar}
           fontSize={15}
           // fontColor="#0782f9"
@@ -87,7 +82,7 @@ export default class CompaniesScreen extends Component {
                   textAlign: "center",
                 }}
               >
-                Email
+                Size
               </Text>
               <Text
                 style={{
@@ -98,46 +93,33 @@ export default class CompaniesScreen extends Component {
                   textAlign: "center",
                 }}
               >
-                Phone Number
+                Thickness
               </Text>
             </View>
-            {/* {console.log(this.state.results)} */}
             {this.state.results.map((res, key) => {
-              // console.log(res);
               return (
-                <TouchableOpacity
-                  key={res.id}
-                  style={styles.company}
-                  onPress={() => {
-                    this.setState({
-                      companyID: res.id,
-                    });
-                    // console.log(this.state.companyID);
-
-                    navigation.navigate("Items", {
-                      companyID: res.id,
-                    });
-                  }}
-                >
-                  {/* <Text style={styles.companyInfo}>{res[1]}</Text> */}
-                  <Text style={styles.companyInfo}>{res.companyName}</Text>
-                  <Text style={styles.companyInfo}>{res.email}</Text>
-                  <Text style={styles.companyInfo}>{res.phoneNumber}</Text>
+                <TouchableOpacity key={res.itemID} style={styles.company}>
+                  <Text style={styles.companyInfo}>{res.itemName}</Text>
+                  <Text style={styles.companyInfo}>{res.itemSize}</Text>
+                  <Text style={styles.companyInfo}>{res.itemThickness}</Text>
                 </TouchableOpacity>
               );
             })}
           </View>
         </ScrollView>
         <Button
-          title="Add Company"
+          title="Add Item"
           onPress={() => {
-            navigation.navigate("AddCompany");
+            this.props.navigation.navigate("AddItem", {
+              companyID: this.state.companyID,
+            });
           }}
         />
       </View>
     );
   }
 }
+
 const styles = StyleSheet.create({
   searchBar: {
     marginTop: 20,

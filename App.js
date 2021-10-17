@@ -9,7 +9,8 @@ import CompaniesScreen from "./Screens/CompaniesScreen";
 import AddCompanyScreen from "./Screens/AddCompanyScreen";
 import SalesScreen from "./Screens/SalesScreen";
 import AddSaleScreen from "./Screens/AddSaleScreen";
-
+import ItemsScreen from "./Screens/ItemsScreen";
+import AddItemScreen from "./Screens/AddItemScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -50,6 +51,16 @@ export default function App() {
           options={{ headerShown: true }}
           name="AddSale"
           component={AddSaleScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: true }}
+          name="Items"
+          component={ItemsScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: true }}
+          name="AddItem"
+          component={AddItemScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
