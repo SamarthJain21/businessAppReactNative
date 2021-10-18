@@ -16,6 +16,7 @@ export default class ItemsScreen extends Component {
     this.state = {
       companyID: this.props.route.params.companyID,
       results: [],
+      filterResults: [],
     };
   }
 
@@ -40,10 +41,75 @@ export default class ItemsScreen extends Component {
               itemSize: documentSnapshot.data().itemSize,
               itemThickness: documentSnapshot.data().itemThickness,
             }),
+            filterResults: this.state.results.concat({
+              itemID: documentSnapshot.id,
+              itemName: documentSnapshot.data().itemName,
+              itemSize: documentSnapshot.data().itemSize,
+              itemThickness: documentSnapshot.data().itemThickness,
+            }),
           });
         });
       });
   };
+  searchFilterName(text) {
+    if (text) {
+      const newData = this.state.results.filter((item) => {
+        const itemData = item.itemName
+          ? item.itemName.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        console.log(this.state.filterResults);
+        return itemData.indexOf(textData) > -1;
+      });
+      this.setState({
+        filterResults: newData,
+        // searchTextName: text,
+      });
+    } else {
+      this.setState({
+        filterResults: this.state.results,
+        // searchTextName: text,
+      });
+    }
+  }
+
+  searchFilterSize(text) {
+    if (text) {
+      text = parseFloat(text);
+      console.log(typeof text);
+      const newData = this.state.results.filter((item) => {
+        let itemData = item.itemSize;
+        itemData = itemData.toString();
+        return itemData.indexOf(text) > -1;
+      });
+      this.setState({
+        filterResults: newData,
+      });
+    } else {
+      this.setState({
+        filterResults: this.state.results,
+      });
+    }
+  }
+
+  searchFilterThickness(text) {
+    if (text) {
+      text = parseFloat(text);
+      console.log(typeof text);
+      const newData = this.state.results.filter((item) => {
+        let itemData = item.itemThickness;
+        itemData = itemData.toString();
+        return itemData.indexOf(text) > -1;
+      });
+      this.setState({
+        filterResults: newData,
+      });
+    } else {
+      this.setState({
+        filterResults: this.state.results,
+      });
+    }
+  }
 
   render() {
     const { navigation } = this.props.navigation;
@@ -51,13 +117,41 @@ export default class ItemsScreen extends Component {
     // console.log(this.state.results);
     return (
       <View>
-        <SearchBar
-          placeholder="Search Item thickness/size/name"
-          style={styles.searchBar}
-          fontSize={15}
-          // fontColor="#0782f9"
-          // backgroundColor="#0782f9"
-        />
+        <View style={styles.search}>
+          <SearchBar
+            placeholder="Name"
+            style={styles.searchBar}
+            fontSize={15}
+            onChangeText={(text) => {
+              this.searchFilterName(text);
+            }}
+            // fontColor="#0782f9"
+            // backgroundColor="#0782f9"
+          />
+          <SearchBar
+            placeholder="Size"
+            style={styles.searchBar}
+            fontSize={15}
+            onChangeText={(text) => {
+              this.searchFilterSize(text);
+            }}
+            keyboardType="numeric"
+            // fontColor="#0782f9"
+            // backgroundColor="#0782f9"
+          />
+          <SearchBar
+            placeholder="Width"
+            style={styles.searchBar}
+            fontSize={15}
+            onChangeText={(text) => {
+              this.searchFilterThickness(text);
+            }}
+            keyboardType="numeric"
+
+            // fontColor="#0782f9"
+            // backgroundColor="#0782f9"
+          />
+        </View>
 
         <ScrollView>
           <View style={styles.companies}>
@@ -96,7 +190,7 @@ export default class ItemsScreen extends Component {
                 Thickness
               </Text>
             </View>
-            {this.state.results.map((res, key) => {
+            {this.state.filterResults.map((res, key) => {
               return (
                 <TouchableOpacity key={res.itemID} style={styles.company}>
                   <Text style={styles.companyInfo}>{res.itemName}</Text>
@@ -123,6 +217,7 @@ export default class ItemsScreen extends Component {
 const styles = StyleSheet.create({
   searchBar: {
     marginTop: 20,
+    maxWidth: "30%",
   },
   companies: {
     marginTop: 20,
@@ -148,5 +243,10 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     // maxWidth: "30%",
     textAlign: "center",
+  },
+  search: {
+    justifyContent: "space-evenly",
+    display: "flex",
+    flexDirection: "row",
   },
 });
