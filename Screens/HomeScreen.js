@@ -103,14 +103,14 @@ export default class HomeScreen extends Component {
           >
             <Text style={{ color: "white" }}>View Companies</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.funcButton}
             onPress={() => {
               navigation.navigate("Sales");
             }}
           >
             <Text style={{ color: "white", flexWrap: "wrap" }}>View Sales</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     );

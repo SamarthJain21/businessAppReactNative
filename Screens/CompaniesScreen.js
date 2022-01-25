@@ -169,6 +169,12 @@ export default class CompaniesScreen extends Component {
             // backgroundColor="#0782f9"
           />
         </View>
+        <Button
+          title="Add Company"
+          onPress={() => {
+            navigation.navigate("AddCompany");
+          }}
+        />
 
         <ScrollView>
           <View style={styles.companies}>
@@ -232,12 +238,6 @@ export default class CompaniesScreen extends Component {
             })}
           </View>
         </ScrollView>
-        <Button
-          title="Add Company"
-          onPress={() => {
-            navigation.navigate("AddCompany");
-          }}
-        />
       </View>
     );
   }

@@ -213,7 +213,7 @@ export default class SignupScreen extends Component {
               value={this.state.gstNo}
               onChangeText={(text) =>
                 this.setState({
-                  gstNo: text,
+                  gstNo: text.toUpperCase(),
                 })
               }
               style={styles.input}

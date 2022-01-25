@@ -152,6 +152,14 @@ export default class ItemsScreen extends Component {
             // backgroundColor="#0782f9"
           />
         </View>
+        <Button
+          title="Add Item"
+          onPress={() => {
+            this.props.navigation.navigate("AddItem", {
+              companyID: this.state.companyID,
+            });
+          }}
+        />
 
         <ScrollView>
           <View style={styles.companies}>
@@ -201,14 +209,6 @@ export default class ItemsScreen extends Component {
             })}
           </View>
         </ScrollView>
-        <Button
-          title="Add Item"
-          onPress={() => {
-            this.props.navigation.navigate("AddItem", {
-              companyID: this.state.companyID,
-            });
-          }}
-        />
       </View>
     );
   }
